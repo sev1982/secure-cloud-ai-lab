@@ -12,7 +12,7 @@ Rules:
 | # | Weakness class | Real incident | Control in this project | Phase | Status |
 |---|---|---|---|---|---|
 | 1 | Old or leaked credentials never rotated or revoked | Collins Aerospace, Sept 2025 (data theft with credentials from a 2022 infostealer infection) | Joiner/mover/leaver process, access reviews, short-lived credentials, secrets in Key Vault, secret scanning before every commit | 2, 3 | Planned |
-| 2 | Weak, default or shared passwords | Collins Aerospace FTP server, Sept 2025 | No default accounts, password policy, MFA on every interactive login, SSH keys only | 2, 3 | Planned |
+| 2 | Weak, default or shared passwords | Collins Aerospace FTP server, Sept 2025 | No default accounts, password policy, MFA on every interactive login, SSH keys only | 2, 3 | In progress: password policy verified on the Ubuntu VM (pwscore rejects short passwords, PAM module active); SSH keys pending |
 | 3 | Legacy or unnecessary service exposed to the Internet | Collins Aerospace FTP server | Only 443 exposed (DMZ), default-deny NSGs, regular exposure scans | 2 | In design |
 | 4 | Single point of failure at a shared supplier, no tested fallback | Collins Aerospace MUSE ransomware, Sept 2025 (check-in down at several European airports) | Documented manual fallback, immutable backups, restore test, recovery time objective | 3, 6 | Planned |
 | 5 | Compromised account with no MFA on a forgotten entry point | Colonial Pipeline, 2021 (legacy VPN account) | MFA everywhere, inventory and removal of unused accounts, alert on login by disabled or dormant accounts | 2, 4 | Planned |
@@ -21,6 +21,7 @@ Rules:
 | 8 | Unpatched vulnerable component | Log4Shell, 2021 | Patch policy, dependency and image scanning, software bill of materials | 3 | Planned |
 | 9 | Flat network and third-party access | Target, 2013 (stolen vendor credentials) | Segmentation (done in design), no standing vendor access, monitoring between zones | 2, 4 | In design |
 | 10 | Attack goes undetected | All of the above | Wazuh agents everywhere, alerts mapped to MITRE ATT&CK, log retention | 4 | Planned |
+| 11 | End-of-life or short-support operating systems | General pattern: systems past their support date keep known flaws that are never patched | LTS releases only, check the support end date before building, keep an inventory with end-of-life dates | 3 | Done for the Ubuntu VM: rebuilt on 24.04 LTS on 2026-11-22 after spotting a 9-month interim release |
 
 Facts about incidents other than Collins Aerospace are recalled from public reporting and must be checked against primary sources (for example CISA advisories or the companies' own statements) when each row is worked on. Add the source link in the row when it is verified.
 
