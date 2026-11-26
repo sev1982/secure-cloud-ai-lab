@@ -20,7 +20,7 @@ Rules:
 | 7 | Cloud credentials stolen through a misconfigured web app | Capital One, 2019 | Managed identities, least-privilege roles, protected metadata service, WAF review | 2, 3 | Planned |
 | 8 | Unpatched vulnerable component | Log4Shell, 2021 | Patch policy, dependency and image scanning, software bill of materials | 3 | Planned |
 | 9 | Flat network and third-party access | Target, 2013 (stolen vendor credentials) | Segmentation (done in design), no standing vendor access, monitoring between zones | 2, 4 | In design |
-| 10 | Attack goes undetected | All of the above | Wazuh agents everywhere, alerts mapped to MITRE ATT&CK, log retention | 4 | Planned |
+| 10 | Attack goes undetected | All of the above | Wazuh agents everywhere, alerts mapped to MITRE ATT&CK, log retention | 4 | In progress (2026-11-25): auditd active on the Ubuntu VM with rules on identity files, sudoers, sshd config and audit config; events carry the original login identity (auid). Wazuh agent and alerts still planned |
 | 11 | End-of-life or short-support operating systems | General pattern: systems past their support date keep known flaws that are never patched | LTS releases only, check the support end date before building, keep an inventory with end-of-life dates | 3 | Done for the Ubuntu VM: rebuilt on 24.04 LTS on 2026-11-22 after spotting a 9-month interim release |
 
 Facts about incidents other than Collins Aerospace are recalled from public reporting and must be checked against primary sources (for example CISA advisories or the companies' own statements) when each row is worked on. Add the source link in the row when it is verified.

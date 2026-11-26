@@ -35,3 +35,16 @@ Set up SSH key authentication from the Kali VM (user redops) to the Ubuntu VM (u
 ## How I would explain this in an interview
 
 "I replaced password SSH access with key-only authentication, validated the config with `sshd -t`, tested both the allowed and the refused path from a second session, and restricted the firewall to the management network. I kept a rollback path with an open session and a VM snapshot."
+
+## Addendum: audit logging with auditd
+
+- Installed `auditd` (active and enabled). By default it runs with no rules, so it records almost nothing useful.
+- Rules in `/etc/audit/rules.d/seclab.rules`: watch writes and attribute changes on `/etc/passwd`, `/etc/shadow`, `/etc/group` (key `identity`), `/etc/sudoers` and `/etc/sudoers.d` (key `sudoers`), `/etc/ssh/sshd_config` and `sshd_config.d` (key `sshd_config`), and `/etc/audit` (key `audit_config`).
+- Loaded with `augenrules --load`, checked with `auditctl -l` (8 rules).
+- Test: `sudo touch /etc/ssh/sshd_config.d/00-hardening.conf`, then `ausearch -k sshd_config -i` shows the event with `auid=labops` and `uid=root`.
+
+What I learned:
+- `auid` is the identity from the original login and does not change after `sudo`, while `uid` is the current identity. This allows tracing who did what, even as root.
+- The loading of the rules is itself logged (`op=add_rule`).
+- A service that is running is not a service that is useful: auditd needed rules before it recorded anything meaningful.
+- Next: rules may be locked with `-e 2` (needs a reboot to change), and the events will be collected by Wazuh.
